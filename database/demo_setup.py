@@ -1216,10 +1216,10 @@ def populate_static_data():
     users_data = [
         # Store Managers (aligned with store IDs 1-25)
         (
-            "hsmith",
-            "holly.smith@cpg.com",
-            "Holly",
-            "Smith",
+            "rico.martinez",
+            "rico.martinez@databricks.com",
+            "Rico",
+            "Martinez",
             "store_manager",
             1,
             "Midwest",

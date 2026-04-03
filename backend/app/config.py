@@ -106,15 +106,18 @@ class AppConfig:
 
     @property
     def database_config(self) -> dict:
-        """Get database configuration, generating a fresh Lakebase token if possible."""
+        """Get database configuration.
+
+        In Databricks Apps: uses the SP's OAuth token dynamically (no secret refresh needed).
+        Locally: uses DB_USER/DB_PASSWORD from env vars.
+        """
         db_password = os.getenv("DB_PASSWORD")
         db_user = os.getenv("DB_USER")
 
-        # In Databricks Apps, use DB_USER and DB_PASSWORD from secrets
-        # The DB_PASSWORD secret must contain a valid Lakebase OAuth token
-        # for the user specified in DB_USER
         if self.is_databricks_app:
-            log.info(f"🔐 Using DB credentials from secrets (user: {db_user})")
+            # Use DB_USER and DB_PASSWORD from secrets
+            # Lakebase authenticates via user OAuth tokens, not SP client credentials
+            log.info(f"🔐 Using Lakebase credentials from secrets (user: {db_user})")
 
         base_config = {
             "host": os.getenv("DB_HOST", "localhost"),
