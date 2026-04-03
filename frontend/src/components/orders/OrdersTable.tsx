@@ -29,13 +29,13 @@ const getStatusBadgeVariant = (status: string) => {
 const getStatusText = (status: string) => {
   switch (status) {
     case 'pending_review':
-      return 'Pending Review';
+      return 'Pendiente de Revision';
     case 'approved':
-      return 'Approved';
+      return 'Aprobado';
     case 'fulfilled':
-      return 'Fulfilled';
+      return 'Completado';
     case 'cancelled':
-      return 'Cancelled';
+      return 'Cancelado';
     default:
       return status;
   }
@@ -43,7 +43,7 @@ const getStatusText = (status: string) => {
 
 const formatDate = (date: string | Date) => {
   const dateObj = typeof date === 'string' ? new Date(date) : date;
-  return dateObj.toLocaleDateString('en-US', {
+  return dateObj.toLocaleDateString('es-MX', {
     month: 'short',
     day: 'numeric',
     year: 'numeric'
@@ -188,13 +188,13 @@ export const OrdersTable = () => {
 
     // Generate status text for what's currently loading
     const loadingSteps = [];
-    if (batchLoadingProgress.orders) loadingSteps.push('orders');
-    if (batchLoadingProgress.statusSummary) loadingSteps.push('analytics');
-    if (batchLoadingProgress.productPrefetch) loadingSteps.push('product details');
+    if (batchLoadingProgress.orders) loadingSteps.push('pedidos');
+    if (batchLoadingProgress.statusSummary) loadingSteps.push('analiticas');
+    if (batchLoadingProgress.productPrefetch) loadingSteps.push('detalles de producto');
 
     const statusText = loadingSteps.length > 0
-      ? `Loading ${loadingSteps.join(', ')}...`
-      : 'Finalizing...';
+      ? `Cargando ${loadingSteps.join(', ')}...`
+      : 'Finalizando...';
 
     return (
       <div className="relative">
@@ -234,7 +234,7 @@ export const OrdersTable = () => {
           </div>
           {order.order_status === 'pending_review' && getDaysExpired(order.order_date, currentDate) > getOrderExpiryDays() && (
             <div className={`text-xs mt-1 ${isDarkMode ? 'text-red-400' : 'text-red-600'}`}>
-              {Math.max(0, Math.ceil(getDaysExpired(order.order_date, currentDate) - getOrderExpiryDays()))} days overdue
+              {Math.max(0, Math.ceil(getDaysExpired(order.order_date, currentDate) - getOrderExpiryDays()))} dias vencidos
             </div>
           )}
         </div>
@@ -243,7 +243,7 @@ export const OrdersTable = () => {
       <div className="grid grid-cols-2 gap-3 text-sm">
         <div className="flex items-center gap-2">
           <Package className={`h-4 w-4 ${isDarkMode ? 'text-gray-400' : 'text-gray-400'}`} />
-          <span className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>{order.quantity_cases} cases</span>
+          <span className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>{order.quantity_cases} cajas</span>
         </div>
         <div className="flex items-center gap-2">
           <Store className={`h-4 w-4 ${isDarkMode ? 'text-gray-400' : 'text-gray-400'}`} />
@@ -358,7 +358,7 @@ export const OrdersTable = () => {
             </td>
             <td className="py-3 px-4">
               <span className={`font-medium ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>{order.quantity_cases}</span>
-              <span className={`ml-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>cases</span>
+              <span className={`ml-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>cajas</span>
             </td>
             <td className="py-3 px-4">
               <div>
@@ -392,7 +392,7 @@ export const OrdersTable = () => {
                 </div>
                 {order.order_status === 'pending_review' && getDaysExpired(order.order_date, currentDate) > getOrderExpiryDays() && (
                   <div className={`text-xs mt-1 ${isDarkMode ? 'text-red-400' : 'text-red-600'}`}>
-                    {Math.max(0, Math.ceil(getDaysExpired(order.order_date, currentDate) - getOrderExpiryDays()))} days overdue
+                    {Math.max(0, Math.ceil(getDaysExpired(order.order_date, currentDate) - getOrderExpiryDays()))} dias vencidos
                   </div>
                 )}
               </div>
@@ -410,7 +410,7 @@ export const OrdersTable = () => {
                       }`}
                   >
                     <Edit3 className="h-4 w-4 mr-1" />
-                    Modify
+                    Modificar
                   </Button>
                 ) : isViewOnlyOrder(order) ? (
                   <Button
@@ -423,7 +423,7 @@ export const OrdersTable = () => {
                       }`}
                   >
                     <Eye className="h-4 w-4 mr-1" />
-                    View
+                    Ver
                   </Button>
                 ) : (
                   <span className={`text-sm ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`}>-</span>
@@ -447,7 +447,7 @@ export const OrdersTable = () => {
   if (error) {
     return (
       <div className={`text-center py-8 ${isDarkMode ? 'text-red-400' : 'text-red-600'}`}>
-        <p className="font-medium">Error loading orders</p>
+        <p className="font-medium">Error cargando pedidos</p>
         <p className={`text-sm mt-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>{error}</p>
       </div>
     );
@@ -487,8 +487,8 @@ export const OrdersTable = () => {
           ) : orders.length === 0 ? (
             <div className={`text-center py-8 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
               <Package className={`mx-auto h-12 w-12 mb-4 ${isDarkMode ? 'text-gray-600' : 'text-gray-400'}`} />
-              <p className="font-medium">No orders found</p>
-              <p className="text-sm mt-1">Try adjusting your filters or search criteria</p>
+              <p className="font-medium">No se encontraron pedidos</p>
+              <p className="text-sm mt-1">Intenta ajustar tus filtros o criterios de busqueda</p>
             </div>
           ) : (
             orders.map(renderMobileCard)
@@ -504,7 +504,7 @@ export const OrdersTable = () => {
             }`}>
             <div className="flex items-center">
               <Loader2 className={`h-6 w-6 animate-spin ${isDarkMode ? 'text-gray-400' : 'text-gray-400'}`} />
-              <span className={`ml-2 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>Loading...</span>
+              <span className={`ml-2 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>Cargando...</span>
             </div>
           </div>
         )}
@@ -512,14 +512,14 @@ export const OrdersTable = () => {
         <table className="w-full">
           <thead>
             <tr className={`border-b ${isDarkMode ? 'border-gray-700' : 'border-gray-200'}`}>
-              <th className={`text-left py-3 px-4 font-medium ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Order #</th>
-              <th className={`text-left py-3 px-4 font-medium ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Product</th>
-              <th className={`text-left py-3 px-4 font-medium ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Quantity</th>
-              <th className={`text-left py-3 px-4 font-medium ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>To Store</th>
-              <th className={`text-left py-3 px-4 font-medium ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Requested By</th>
-              <th className={`text-left py-3 px-4 font-medium ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Order Date</th>
-              <th className={`text-left py-3 px-4 font-medium ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Status</th>
-              <th className={`text-left py-3 px-4 font-medium ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Actions</th>
+              <th className={`text-left py-3 px-4 font-medium ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Pedido #</th>
+              <th className={`text-left py-3 px-4 font-medium ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Producto</th>
+              <th className={`text-left py-3 px-4 font-medium ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Cantidad</th>
+              <th className={`text-left py-3 px-4 font-medium ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Tienda Destino</th>
+              <th className={`text-left py-3 px-4 font-medium ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Solicitado Por</th>
+              <th className={`text-left py-3 px-4 font-medium ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Fecha de Pedido</th>
+              <th className={`text-left py-3 px-4 font-medium ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Estado</th>
+              <th className={`text-left py-3 px-4 font-medium ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Acciones</th>
             </tr>
           </thead>
           <tbody>
@@ -534,9 +534,9 @@ export const OrdersTable = () => {
           }`}>
           <div className={`flex items-center gap-4 text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'
             }`}>
-            <span>Page {currentPage} of {totalPages}</span>
+            <span>Pagina {currentPage} de {totalPages}</span>
             <span>•</span>
-            <span>{totalItems} total orders</span>
+            <span>{totalItems} pedidos totales</span>
           </div>
           <div className="flex gap-2">
             <Button
@@ -547,7 +547,7 @@ export const OrdersTable = () => {
               className={isDarkMode ? 'bg-gray-700 border-blue-500 text-blue-400 hover:bg-gray-600 hover:text-white' : ''}
             >
               <ChevronLeft className="h-4 w-4" />
-              Previous
+              Anterior
             </Button>
             <Button
               variant="outline"
@@ -556,7 +556,7 @@ export const OrdersTable = () => {
               disabled={currentPage === totalPages || isCurrentlyLoading}
               className={isDarkMode ? 'bg-gray-700 border-blue-500 text-blue-400 hover:bg-gray-600 hover:text-white' : ''}
             >
-              Next
+              Siguiente
               <ChevronRight className="h-4 w-4" />
             </Button>
           </div>
@@ -567,7 +567,7 @@ export const OrdersTable = () => {
       {!isCurrentlyLoading && orders.length === 0 && (
         <div className="text-center py-12 hidden md:block">
           <Package className={`h-12 w-12 mx-auto mb-4 ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`} />
-          <p className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>No orders found</p>
+          <p className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>No se encontraron pedidos</p>
         </div>
       )}
 

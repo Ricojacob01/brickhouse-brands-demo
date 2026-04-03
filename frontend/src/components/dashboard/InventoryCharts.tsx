@@ -87,7 +87,7 @@ export const InventoryCharts = () => {
   };
 
   const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat('en-US', {
+    return new Intl.NumberFormat('es-MX', {
       style: 'currency',
       currency: 'USD',
       minimumFractionDigits: 0,
@@ -97,7 +97,7 @@ export const InventoryCharts = () => {
 
   const formatDateString = (dateStr: string) => {
     const date = new Date(dateStr);
-    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    return date.toLocaleDateString('es-MX', { month: 'short', day: 'numeric' });
   };
 
   // Helper function to get date range display text
@@ -105,9 +105,9 @@ export const InventoryCharts = () => {
     if (hasDateFilter() && dateFrom && dateTo) {
       const from = new Date(dateFrom);
       const to = new Date(dateTo);
-      return `${from.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - ${to.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`;
+      return `${from.toLocaleDateString('es-MX', { month: 'short', day: 'numeric' })} - ${to.toLocaleDateString('es-MX', { month: 'short', day: 'numeric' })}`;
     }
-    return "Last 30 Days";
+    return "Ultimos 30 Dias";
   };
 
   // Colors for charts (adapted for dark/light mode) - Define early to avoid initialization error
@@ -250,7 +250,7 @@ export const InventoryCharts = () => {
       <Card className={`col-span-1 lg:col-span-2 ${isDarkMode ? 'bg-gray-800 border-gray-700' : ''}`}>
         <CardHeader>
           <CardTitle className={isDarkMode ? 'text-white' : ''}>
-            Demand Forecasting - Order Volume Trends & Predictions
+            Pronostico de Demanda - Tendencias y Predicciones de Volumen
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -274,7 +274,7 @@ export const InventoryCharts = () => {
                   axisLine={{ stroke: chartTheme.grid }}
                   tickLine={{ stroke: chartTheme.grid }}
                   label={{
-                    value: 'Orders per Day',
+                    value: 'Pedidos por Dia',
                     angle: -90,
                     position: 'insideLeft',
                     style: { textAnchor: 'middle', fill: chartTheme.text }
@@ -290,7 +290,7 @@ export const InventoryCharts = () => {
                   tickFormatter={formatCurrency}
                   width={90}
                   label={{
-                    value: 'Total Value',
+                    value: 'Valor Total',
                     angle: 90,
                     position: 'outside',
                     offset: 20,
@@ -307,7 +307,7 @@ export const InventoryCharts = () => {
                   strokeWidth={2}
                   strokeDasharray="4 4"
                   label={{
-                    value: "Today",
+                    value: "Hoy",
                     position: "top",
                     style: { fill: isDarkMode ? '#ef4444' : '#dc2626', fontSize: '12px' }
                   }}
@@ -315,14 +315,14 @@ export const InventoryCharts = () => {
 
                 <Tooltip
                   formatter={(value, name) => {
-                    if (name === 'order_count') return [value, 'Orders'];
-                    if (name === 'total_value') return [formatCurrency(Number(value)), 'Total Value'];
-                    if (name === 'trend_orders') return [Math.round(Number(value)), 'Trend Line'];
+                    if (name === 'order_count') return [value, 'Pedidos'];
+                    if (name === 'total_value') return [formatCurrency(Number(value)), 'Valor Total'];
+                    if (name === 'trend_orders') return [Math.round(Number(value)), 'Linea de Tendencia'];
                     return [value, name];
                   }}
                   labelFormatter={(label, payload) => {
                     const dataPoint = payload?.[0]?.payload;
-                    const forecastText = dataPoint?.is_forecast ? ' (Forecast)' : ' (Historical)';
+                    const forecastText = dataPoint?.is_forecast ? ' (Pronostico)' : ' (Historico)';
                     return `${formatDateString(label)}${forecastText}`;
                   }}
                   contentStyle={{
@@ -434,7 +434,7 @@ export const InventoryCharts = () => {
               </LineChart>
             ) : (
               <div className={`flex items-center justify-center h-full ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-                No forecast data available
+                No hay datos de pronostico disponibles
               </div>
             )}
           </ResponsiveContainer>
@@ -444,27 +444,27 @@ export const InventoryCharts = () => {
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm max-w-4xl">
               <div className="flex items-center space-x-2">
                 <div className={`w-4 h-0.5 ${isDarkMode ? 'bg-blue-400' : 'bg-blue-600'}`}></div>
-                <span className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>Historical Orders</span>
+                <span className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>Pedidos Historicos</span>
               </div>
               <div className="flex items-center space-x-2">
                 <div className={`w-4 h-0.5 ${isDarkMode ? 'bg-orange-400' : 'bg-orange-600'}`}></div>
-                <span className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>Forecast Orders</span>
+                <span className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>Pedidos Pronosticados</span>
               </div>
               <div className="flex items-center space-x-2">
                 <div className={`w-4 h-0.5 ${isDarkMode ? 'bg-green-400' : 'bg-green-600'}`}></div>
-                <span className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>Historical Revenue</span>
+                <span className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>Ingresos Historicos</span>
               </div>
               <div className="flex items-center space-x-2">
                 <div className={`w-4 h-0.5 ${isDarkMode ? 'bg-purple-400' : 'bg-purple-600'}`}></div>
-                <span className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>Forecast Revenue</span>
+                <span className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>Ingresos Pronosticados</span>
               </div>
               <div className="flex items-center space-x-2">
                 <div className={`w-4 h-0.5 ${isDarkMode ? 'bg-yellow-400' : 'bg-yellow-600'}`} style={{ borderTop: '1px dashed' }}></div>
-                <span className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>Trend Line</span>
+                <span className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>Linea de Tendencia</span>
               </div>
               <div className="flex items-center space-x-2">
                 <div className={`w-4 h-0.5 ${isDarkMode ? 'bg-red-400' : 'bg-red-600'}`} style={{ borderTop: '2px dashed' }}></div>
-                <span className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>Today</span>
+                <span className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>Hoy</span>
               </div>
             </div>
           </div>
@@ -475,7 +475,7 @@ export const InventoryCharts = () => {
       <Card className={isDarkMode ? 'bg-gray-800 border-gray-700' : ''}>
         <CardHeader>
           <CardTitle className={isDarkMode ? 'text-white' : ''}>
-            Inventory by Category
+            Inventario por Categoria
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -520,7 +520,7 @@ export const InventoryCharts = () => {
               </PieChart>
             ) : (
               <div className={`flex items-center justify-center h-full ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-                No category data available
+                No hay datos de categoria disponibles
               </div>
             )}
           </ResponsiveContainer>
@@ -531,7 +531,7 @@ export const InventoryCharts = () => {
       <Card className={isDarkMode ? 'bg-gray-800 border-gray-700' : ''}>
         <CardHeader>
           <CardTitle className={isDarkMode ? 'text-white' : ''}>
-            Fulfillment Timeline ({getDateRangeText()})
+            Linea de Tiempo de Despacho ({getDateRangeText()})
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -585,7 +585,7 @@ export const InventoryCharts = () => {
               </AreaChart>
             ) : (
               <div className={`flex items-center justify-center h-full ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-                No fulfillment data available
+                No hay datos de despacho disponibles
               </div>
             )}
           </ResponsiveContainer>
@@ -596,7 +596,7 @@ export const InventoryCharts = () => {
       <Card className={isDarkMode ? 'bg-gray-800 border-gray-700' : ''}>
         <CardHeader>
           <CardTitle className={isDarkMode ? 'text-white' : ''}>
-            Order Status Distribution ({getDateRangeText()})
+            Distribucion de Estado de Pedidos ({getDateRangeText()})
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -618,10 +618,10 @@ export const InventoryCharts = () => {
                 />
                 <Tooltip
                   formatter={(value, name, props) => [
-                    `${value}% (${props.payload.count} orders)`,
-                    "Orders"
+                    `${value}% (${props.payload.count} pedidos)`,
+                    "Pedidos"
                   ]}
-                  labelFormatter={(label) => `Status: ${label}`}
+                  labelFormatter={(label) => `Estado: ${label}`}
                   contentStyle={{
                     backgroundColor: chartTheme.tooltip.background,
                     border: `1px solid ${chartTheme.tooltip.border}`,
@@ -637,7 +637,7 @@ export const InventoryCharts = () => {
               </BarChart>
             ) : (
               <div className={`flex items-center justify-center h-full ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-                No status data available
+                No hay datos de estado disponibles
               </div>
             )}
           </ResponsiveContainer>
@@ -648,7 +648,7 @@ export const InventoryCharts = () => {
       <Card className={isDarkMode ? 'bg-gray-800 border-gray-700' : ''}>
         <CardHeader>
           <CardTitle className={isDarkMode ? 'text-white' : ''}>
-            Regional Performance ({getDateRangeText()})
+            Rendimiento Regional ({getDateRangeText()})
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -675,14 +675,14 @@ export const InventoryCharts = () => {
                   axisLine={{ stroke: chartTheme.grid }}
                   tickLine={{ stroke: chartTheme.grid }}
                   label={{
-                    value: 'Fulfillment Rate (%)',
+                    value: 'Tasa de Despacho (%)',
                     angle: -90,
                     position: 'insideLeft',
                     style: { textAnchor: 'middle', fill: chartTheme.text }
                   }}
                 />
                 <Tooltip
-                  formatter={(value) => [`${Number(value).toFixed(1)}%`, "Fulfillment Rate"]}
+                  formatter={(value) => [`${Number(value).toFixed(1)}%`, "Tasa de Despacho"]}
                   labelFormatter={(label) => `Region: ${label}`}
                   contentStyle={{
                     backgroundColor: chartTheme.tooltip.background,
@@ -702,7 +702,7 @@ export const InventoryCharts = () => {
               </BarChart>
             ) : (
               <div className={`flex items-center justify-center h-full ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-                No regional data available
+                No hay datos regionales disponibles
               </div>
             )}
           </ResponsiveContainer>

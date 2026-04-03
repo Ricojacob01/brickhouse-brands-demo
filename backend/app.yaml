@@ -12,7 +12,7 @@ env:
   - name: "DB_PORT"
     value: 5432
   - name: "DB_NAME"
-    value: "databricks_postgres"
+    value: "brickhouse_brands"
   - name: "DB_SCHEMA"
     value: "public"
   - name: "DB_HOST"

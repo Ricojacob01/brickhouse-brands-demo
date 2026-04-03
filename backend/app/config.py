@@ -90,27 +90,44 @@ class AppConfig:
             log.error(f"❌ Failed to get OAuth token: {e}")
             return None
 
+    def _get_lakebase_credential(self) -> Optional[str]:
+        """Generate a fresh Lakebase database credential using the Databricks SDK."""
+        try:
+            client = self.get_workspace_client()
+            # Use the workspace OAuth token directly as the Lakebase password
+            headers = client.config.authenticate()
+            if headers and "Authorization" in headers:
+                token = headers["Authorization"].replace("Bearer ", "")
+                log.info("🔑 Fresh Lakebase credential generated via SDK")
+                return token
+        except Exception as e:
+            log.warning(f"⚠️ Could not generate Lakebase credential via SDK: {e}")
+        return None
+
     @property
     def database_config(self) -> dict:
-        """Get database configuration with OAuth token if available"""
+        """Get database configuration, generating a fresh Lakebase token if possible."""
+        db_password = os.getenv("DB_PASSWORD")
+        db_user = os.getenv("DB_USER")
+
+        # In Databricks Apps, use DB_USER and DB_PASSWORD from secrets
+        # The DB_PASSWORD secret must contain a valid Lakebase OAuth token
+        # for the user specified in DB_USER
+        if self.is_databricks_app:
+            log.info(f"🔐 Using DB credentials from secrets (user: {db_user})")
+
         base_config = {
             "host": os.getenv("DB_HOST", "localhost"),
-            "port": os.getenv("DB_PORT", "5432"),
+            "port": int(os.getenv("DB_PORT", "5432")),
             "database": os.getenv("DB_NAME", "postgres"),
-            "user": os.getenv("DB_USER"),
-            "password": os.getenv("DB_PASSWORD"),
+            "user": db_user,
+            "password": db_password,
+            "sslmode": "require",
         }
 
-        # If we have an OAuth token, we could potentially use it for authentication
-        # This depends on your PostgreSQL setup and whether it supports OAuth
-        oauth_token = self.get_oauth_token()
-        if oauth_token and self.is_databricks_app and isinstance(oauth_token, str):
-            # Note: Using OAuth for PostgreSQL would require specific setup
-            # For now, we'll keep the existing username/password authentication
-            # but log that OAuth is available
-            log.info(
-                f"✅ OAuth token available for potential use: {oauth_token[:20]}..."
-            )
+        log.info(f"📋 DB config: user={db_user}, host={base_config['host']}, "
+                 f"db={base_config['database']}, port={base_config['port']}, "
+                 f"password={'set(' + str(len(db_password or '')) + ' chars)' if db_password else 'NOT SET'}")
 
         return base_config
 

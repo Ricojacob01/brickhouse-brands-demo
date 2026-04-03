@@ -97,7 +97,7 @@ export const OrderAnalyticsCards = () => {
     }, [filters.status, filters.expiredSlaOnly]);
 
     const formatNumber = (value: number) => {
-        return new Intl.NumberFormat('en-US').format(value);
+        return new Intl.NumberFormat('es-MX').format(value);
     };
 
     const handleCardClick = (filterType: FilterType) => {
@@ -142,10 +142,10 @@ export const OrderAnalyticsCards = () => {
 
         return [
             {
-                title: "Expired SLA",
+                title: "SLA Vencido",
                 value: formatNumber(expired_sla_count),
                 icon: AlertTriangle,
-                description: "over 2 days old",
+                description: "mas de 2 dias",
                 color: isDarkMode ? "text-red-400" : "text-red-600",
                 bgColor: isDarkMode ? "bg-red-900/20" : "bg-red-50",
                 iconColor: isDarkMode ? "text-red-400" : "text-red-600",
@@ -154,10 +154,10 @@ export const OrderAnalyticsCards = () => {
                 activeColor: isDarkMode ? "bg-red-900/40 border-red-400" : "bg-red-100 border-red-300"
             },
             {
-                title: "Pending Review",
+                title: "Pendiente de Revision",
                 value: formatNumber(status_counts.pending_review),
                 icon: Clock,
-                description: "awaiting approval",
+                description: "esperando aprobacion",
                 color: isDarkMode ? "text-yellow-400" : "text-yellow-600",
                 bgColor: isDarkMode ? "bg-yellow-900/20" : "bg-yellow-50",
                 iconColor: isDarkMode ? "text-yellow-400" : "text-yellow-600",
@@ -166,10 +166,10 @@ export const OrderAnalyticsCards = () => {
                 activeColor: isDarkMode ? "bg-yellow-900/40 border-yellow-400" : "bg-yellow-100 border-yellow-300"
             },
             {
-                title: "Approved Orders",
+                title: "Pedidos Aprobados",
                 value: formatNumber(status_counts.approved),
                 icon: CheckCircle,
-                description: "ready for fulfillment",
+                description: "listos para despacho",
                 color: isDarkMode ? "text-blue-400" : "text-blue-600",
                 bgColor: isDarkMode ? "bg-blue-900/20" : "bg-blue-50",
                 iconColor: isDarkMode ? "text-blue-400" : "text-blue-600",
@@ -178,10 +178,10 @@ export const OrderAnalyticsCards = () => {
                 activeColor: isDarkMode ? "bg-blue-900/40 border-blue-400" : "bg-blue-100 border-blue-300"
             },
             {
-                title: "Fulfilled Orders",
+                title: "Pedidos Completados",
                 value: formatNumber(status_counts.fulfilled),
                 icon: Package,
-                description: "completed orders",
+                description: "pedidos completados",
                 color: isDarkMode ? "text-green-400" : "text-green-600",
                 bgColor: isDarkMode ? "bg-green-900/20" : "bg-green-50",
                 iconColor: isDarkMode ? "text-green-400" : "text-green-600",
@@ -198,7 +198,7 @@ export const OrderAnalyticsCards = () => {
                 <Card className={`col-span-full ${isDarkMode ? 'bg-gray-800 border-gray-700' : ''}`}>
                     <CardContent className="pt-6">
                         <div className={`text-center ${isDarkMode ? 'text-red-400' : 'text-red-600'}`}>
-                            <p className="font-medium">Error loading order analytics</p>
+                            <p className="font-medium">Error cargando analiticas de pedidos</p>
                             <p className={`text-sm mt-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>{error}</p>
                         </div>
                     </CardContent>
@@ -264,7 +264,7 @@ export const OrderAnalyticsCards = () => {
                                         ? 'bg-gray-700 text-gray-300'
                                         : 'bg-white text-gray-700'
                                         }`}>
-                                        Active
+                                        Activo
                                     </span>
                                 )}
                             </CardTitle>
@@ -282,7 +282,7 @@ export const OrderAnalyticsCards = () => {
                             <p className={`text-xs mt-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'
                                 }`}>
                                 {card.description}
-                                {isActive && " • Click to clear filter"}
+                                {isActive && " • Clic para limpiar filtro"}
                             </p>
                         </CardContent>
                     </Card>

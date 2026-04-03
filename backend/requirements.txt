@@ -7,3 +7,4 @@ python-multipart==0.0.6
 databricks-sdk==0.55.0
 databricks-sql-connector==4.0.3
 aiofiles==23.2.0
+requests>=2.31.0

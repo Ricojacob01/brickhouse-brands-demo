@@ -63,13 +63,13 @@ const getStatusBadgeVariant = (status: string) => {
 const getStatusText = (status: string) => {
   switch (status) {
     case 'pending_review':
-      return 'Pending Review';
+      return 'Pendiente de Revision';
     case 'approved':
-      return 'Approved';
+      return 'Aprobado';
     case 'fulfilled':
-      return 'Fulfilled';
+      return 'Completado';
     case 'cancelled':
-      return 'Cancelled';
+      return 'Cancelado';
     default:
       return status;
   }
@@ -147,12 +147,12 @@ export const ViewOrderDetailsModal = ({ isOpen, onClose, order }: ViewOrderDetai
 
   // Determine modal title based on mode
   const getModalTitle = () => {
-    if (!order) return "Order Details";
+    if (!order) return "Detalles del Pedido";
 
     if (isViewOnly) {
-      return `View Order ${order.order_number}`;
+      return `Ver Pedido ${order.order_number}`;
     } else {
-      return `Modify Order ${order.order_number}`;
+      return `Modificar Pedido ${order.order_number}`;
     }
   };
 
@@ -162,8 +162,8 @@ export const ViewOrderDetailsModal = ({ isOpen, onClose, order }: ViewOrderDetai
     // Validate quantity
     if (quantity <= 0) {
       toast({
-        title: "Invalid quantity",
-        description: "Quantity must be greater than 0.",
+        title: "Cantidad invalida",
+        description: "La cantidad debe ser mayor que 0.",
         variant: "destructive"
       });
       return;
@@ -172,8 +172,8 @@ export const ViewOrderDetailsModal = ({ isOpen, onClose, order }: ViewOrderDetai
     const maxQuantity = getMaxOrderQuantity();
     if (quantity > maxQuantity) {
       toast({
-        title: "Invalid quantity",
-        description: `Maximum quantity is ${maxQuantity.toLocaleString()} cases.`,
+        title: "Cantidad invalida",
+        description: `La cantidad maxima es ${maxQuantity.toLocaleString()} cajas.`,
         variant: "destructive"
       });
       return;
@@ -187,8 +187,8 @@ export const ViewOrderDetailsModal = ({ isOpen, onClose, order }: ViewOrderDetai
 
       if (success) {
         toast({
-          title: "Order updated",
-          description: `Order ${order.order_number} has been successfully updated.`,
+          title: "Pedido actualizado",
+          description: `El pedido ${order.order_number} ha sido actualizado exitosamente.`,
           variant: "default"
         });
 
@@ -202,8 +202,8 @@ export const ViewOrderDetailsModal = ({ isOpen, onClose, order }: ViewOrderDetai
       }
     } catch (error) {
       toast({
-        title: "Update failed",
-        description: "Failed to update the order. Please try again.",
+        title: "Error en la actualizacion",
+        description: "No se pudo actualizar el pedido. Intenta de nuevo.",
         variant: "destructive"
       });
     }
@@ -212,8 +212,8 @@ export const ViewOrderDetailsModal = ({ isOpen, onClose, order }: ViewOrderDetai
   const handleCancelOrder = async () => {
     if (!order || !cancellationReason.trim()) {
       toast({
-        title: "Cancellation reason required",
-        description: "Please provide a reason for cancelling this order.",
+        title: "Se requiere razon de cancelacion",
+        description: "Proporciona una razon para cancelar este pedido.",
         variant: "destructive"
       });
       return;
@@ -224,8 +224,8 @@ export const ViewOrderDetailsModal = ({ isOpen, onClose, order }: ViewOrderDetai
 
       if (success) {
         toast({
-          title: "Order cancelled",
-          description: `Order ${order.order_number} has been cancelled.`,
+          title: "Pedido cancelado",
+          description: `El pedido ${order.order_number} ha sido cancelado.`,
           variant: "default"
         });
 
@@ -237,8 +237,8 @@ export const ViewOrderDetailsModal = ({ isOpen, onClose, order }: ViewOrderDetai
       }
     } catch (error) {
       toast({
-        title: "Cancellation failed",
-        description: "Failed to cancel the order. Please try again.",
+        title: "Error en la cancelacion",
+        description: "No se pudo cancelar el pedido. Intenta de nuevo.",
         variant: "destructive"
       });
     }
@@ -286,7 +286,7 @@ export const ViewOrderDetailsModal = ({ isOpen, onClose, order }: ViewOrderDetai
                   </Badge>
                   {order.order_status === 'pending_review' && getDaysExpired(order.order_date, currentDate) > getOrderExpiryDays() && (
                     <span className={`text-xs whitespace-nowrap flex-shrink-0 ${isDarkMode ? 'text-red-400' : 'text-red-600'}`}>
-                      {Math.max(0, Math.ceil(getDaysExpired(order.order_date, currentDate) - getOrderExpiryDays()))} days overdue
+                      {Math.max(0, Math.ceil(getDaysExpired(order.order_date, currentDate) - getOrderExpiryDays()))} dias vencidos
                     </span>
                   )}
                   <span className={`text-sm whitespace-nowrap flex-shrink-0 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'
@@ -300,7 +300,7 @@ export const ViewOrderDetailsModal = ({ isOpen, onClose, order }: ViewOrderDetai
                       }`}>
                       <AlertDescription className={`text-xs ${isDarkMode ? 'text-blue-300' : 'text-blue-700'
                         }`}>
-                        This order is in view-only mode
+                        Este pedido es de solo lectura
                       </AlertDescription>
                     </Alert>
                   )}
@@ -314,7 +314,7 @@ export const ViewOrderDetailsModal = ({ isOpen, onClose, order }: ViewOrderDetai
                       }`} />
                     <AlertDescription className={`ml-2 text-sm ${isDarkMode ? 'text-orange-300' : 'text-orange-700'
                       }`}>
-                      Only pending and approved orders can be modified
+                      Solo los pedidos pendientes y aprobados pueden ser modificados
                     </AlertDescription>
                   </Alert>
                 )}
@@ -329,7 +329,7 @@ export const ViewOrderDetailsModal = ({ isOpen, onClose, order }: ViewOrderDetai
                   <CardTitle className={`flex items-center gap-2 text-lg ${isDarkMode ? 'text-white' : ''
                     }`}>
                     <Package className="h-6 w-6" />
-                    Order Details
+                    Detalles del Pedido
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
@@ -339,7 +339,7 @@ export const ViewOrderDetailsModal = ({ isOpen, onClose, order }: ViewOrderDetai
                         }`} />
                       <div>
                         <div className={`font-medium ${isDarkMode ? 'text-white' : 'text-gray-900'
-                          }`}>Order Number</div>
+                          }`}>Numero de Pedido</div>
                         <div className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>
                           {order.order_number}
                         </div>
@@ -351,7 +351,7 @@ export const ViewOrderDetailsModal = ({ isOpen, onClose, order }: ViewOrderDetai
                         }`} />
                       <div>
                         <div className={`font-medium ${isDarkMode ? 'text-white' : 'text-gray-900'
-                          }`}>Order Date</div>
+                          }`}>Fecha de Pedido</div>
                         <div className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>
                           {formatDate(order.order_date)}
                         </div>
@@ -367,7 +367,7 @@ export const ViewOrderDetailsModal = ({ isOpen, onClose, order }: ViewOrderDetai
                       />
                       <div>
                         <div className={`font-medium ${isDarkMode ? 'text-white' : 'text-gray-900'
-                          }`}>Requested By</div>
+                          }`}>Solicitado Por</div>
                         <div className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>
                           {order.requester_name}
                         </div>
@@ -386,7 +386,7 @@ export const ViewOrderDetailsModal = ({ isOpen, onClose, order }: ViewOrderDetai
                           <div>
                             <div className={`font-medium ${isDarkMode ? 'text-white' : 'text-gray-900'
                               }`}>
-                              {order.order_status === 'approved' ? 'Approved By' : 'Assigned Approver'}
+                              {order.order_status === 'approved' ? 'Aprobado Por' : 'Aprobador Asignado'}
                             </div>
                             <div className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>
                               {order.approver_name}
@@ -403,9 +403,9 @@ export const ViewOrderDetailsModal = ({ isOpen, onClose, order }: ViewOrderDetai
                           />
                           <div>
                             <div className={`font-medium ${isDarkMode ? 'text-white' : 'text-gray-900'
-                              }`}>Assigned Approver</div>
+                              }`}>Aprobador Asignado</div>
                             <div className={`italic ${isDarkMode ? 'text-gray-400' : 'text-gray-500'
-                              }`}>Unassigned</div>
+                              }`}>Sin asignar</div>
                           </div>
                         </>
                       ) : (
@@ -418,9 +418,9 @@ export const ViewOrderDetailsModal = ({ isOpen, onClose, order }: ViewOrderDetai
                           />
                           <div>
                             <div className={`font-medium ${isDarkMode ? 'text-white' : 'text-gray-900'
-                              }`}>Approver</div>
+                              }`}>Aprobador</div>
                             <div className={`italic ${isDarkMode ? 'text-gray-400' : 'text-gray-500'
-                              }`}>Not Required</div>
+                              }`}>No requerido</div>
                           </div>
                         </>
                       )}
@@ -432,7 +432,7 @@ export const ViewOrderDetailsModal = ({ isOpen, onClose, order }: ViewOrderDetai
                     }`}>
                     <div className="flex items-center justify-between">
                       <div className={`font-medium ${isDarkMode ? 'text-white' : 'text-gray-900'
-                        }`}>Total Order Value</div>
+                        }`}>Valor Total del Pedido</div>
                       <div className={`text-lg font-semibold ${isDarkMode ? 'text-green-400' : 'text-green-600'
                         }`}>
                         {isLoadingCurrentProduct ? (
@@ -443,18 +443,18 @@ export const ViewOrderDetailsModal = ({ isOpen, onClose, order }: ViewOrderDetai
                         ) : currentProduct?.unit_price ? (
                           formatCurrency(order.quantity_cases * currentProduct.unit_price)
                         ) : (
-                          'Price not available'
+                          'Precio no disponible'
                         )}
                       </div>
                     </div>
                     <div className={`text-sm mt-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'
                       }`}>
                       {isLoadingCurrentProduct ? (
-                        `${order.quantity_cases.toLocaleString()} cases`
+                        `${order.quantity_cases.toLocaleString()} cajas`
                       ) : currentProduct?.unit_price ? (
-                        `${order.quantity_cases.toLocaleString()} cases × ${formatCurrency(currentProduct.unit_price)} per case`
+                        `${order.quantity_cases.toLocaleString()} cajas × ${formatCurrency(currentProduct.unit_price)} por caja`
                       ) : (
-                        `${order.quantity_cases.toLocaleString()} cases`
+                        `${order.quantity_cases.toLocaleString()} cajas`
                       )}
                     </div>
                   </div>
@@ -467,7 +467,7 @@ export const ViewOrderDetailsModal = ({ isOpen, onClose, order }: ViewOrderDetai
                   <CardTitle className={`flex items-center gap-2 text-lg ${isDarkMode ? 'text-white' : ''
                     }`}>
                     <ShoppingCart className="h-6 w-6" />
-                    Product & Delivery
+                    Producto y Entrega
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
@@ -481,12 +481,12 @@ export const ViewOrderDetailsModal = ({ isOpen, onClose, order }: ViewOrderDetai
                       {isLoadingCurrentProduct ? (
                         <div className="flex items-center gap-1">
                           <Loader2 className="h-3 w-3 animate-spin" />
-                          <span className="text-xs">Loading price...</span>
+                          <span className="text-xs">Cargando precio...</span>
                         </div>
                       ) : currentProduct?.unit_price ? (
-                        formatCurrency(currentProduct.unit_price) + ' per case'
+                        formatCurrency(currentProduct.unit_price) + ' por caja'
                       ) : (
-                        'Price not available'
+                        'Precio no disponible'
                       )}
                     </div>
                   </div>
@@ -497,7 +497,7 @@ export const ViewOrderDetailsModal = ({ isOpen, onClose, order }: ViewOrderDetai
                       <Store className={`h-8 w-8 ${isDarkMode ? 'text-gray-500' : 'text-gray-400'
                         }`} />
                       <span className={`font-medium ${isDarkMode ? 'text-white' : 'text-gray-900'
-                        }`}>Delivery Store</span>
+                        }`}>Tienda de Entrega</span>
                     </div>
                     <div>
                       <div className={`font-medium ${isDarkMode ? 'text-white' : ''
@@ -514,7 +514,7 @@ export const ViewOrderDetailsModal = ({ isOpen, onClose, order }: ViewOrderDetai
                         <Building2 className={`h-8 w-8 ${isDarkMode ? 'text-gray-500' : 'text-gray-400'
                           }`} />
                         <span className={`font-medium ${isDarkMode ? 'text-white' : 'text-gray-900'
-                          }`}>Source Store</span>
+                          }`}>Tienda Origen</span>
                       </div>
                       <div className={`font-medium ${isDarkMode ? 'text-white' : ''
                         }`}>{order.from_store_name}</div>
@@ -531,7 +531,7 @@ export const ViewOrderDetailsModal = ({ isOpen, onClose, order }: ViewOrderDetai
                   <span className={`flex items-center gap-2 text-lg ${isDarkMode ? 'text-white' : ''
                     }`}>
                     {isViewOnly ? <Eye className="h-6 w-6" /> : <Edit3 className="h-6 w-6" />}
-                    {isViewOnly ? 'Order Information' : 'Order Modifications'}
+                    {isViewOnly ? 'Informacion del Pedido' : 'Modificaciones del Pedido'}
                   </span>
                   {canModify && !isEditing && (
                     <Button
@@ -543,7 +543,7 @@ export const ViewOrderDetailsModal = ({ isOpen, onClose, order }: ViewOrderDetai
                         : ''}
                     >
                       <Edit3 className="h-4 w-4 mr-2" />
-                      Edit Order
+                      Editar Pedido
                     </Button>
                   )}
                 </CardTitle>
@@ -553,7 +553,7 @@ export const ViewOrderDetailsModal = ({ isOpen, onClose, order }: ViewOrderDetai
                 <div>
                   <Label htmlFor="quantity" className={`text-sm font-medium ${isDarkMode ? 'text-gray-300' : ''
                     }`}>
-                    Quantity (Cases)
+                    Cantidad (Cajas)
                   </Label>
                   <div className="mt-1">
                     {isEditing && canModify ? (
@@ -585,7 +585,7 @@ export const ViewOrderDetailsModal = ({ isOpen, onClose, order }: ViewOrderDetai
                     ) : (
                       <div className={`text-lg font-semibold ${isDarkMode ? 'text-white' : 'text-gray-900'
                         }`}>
-                        {order.quantity_cases.toLocaleString()} cases
+                        {order.quantity_cases.toLocaleString()} cajas
                       </div>
                     )}
                   </div>
@@ -595,7 +595,7 @@ export const ViewOrderDetailsModal = ({ isOpen, onClose, order }: ViewOrderDetai
                 <div>
                   <Label htmlFor="notes" className={`text-sm font-medium ${isDarkMode ? 'text-gray-300' : ''
                     }`}>
-                    Order Notes
+                    Notas del Pedido
                   </Label>
                   <div className="mt-1">
                     {isEditing && canModify ? (
@@ -606,14 +606,14 @@ export const ViewOrderDetailsModal = ({ isOpen, onClose, order }: ViewOrderDetai
                         className={`w-full ${isDarkMode ? 'bg-gray-600 border-gray-500 text-white placeholder-gray-400' : ''
                           }`}
                         rows={3}
-                        placeholder="Add any special instructions or notes for this order..."
+                        placeholder="Agrega instrucciones especiales o notas para este pedido..."
                       />
                     ) : (
                       <div className={`min-h-[60px] p-3 rounded-md ${isDarkMode ? 'bg-gray-600 text-white' : 'bg-gray-50 text-gray-900'
                         }`}>
                         {order.notes || (
                           <span className={`italic ${isDarkMode ? 'text-gray-400' : 'text-gray-500'
-                            }`}>No notes provided</span>
+                            }`}>Sin notas</span>
                         )}
                       </div>
                     )}
@@ -632,12 +632,12 @@ export const ViewOrderDetailsModal = ({ isOpen, onClose, order }: ViewOrderDetai
                       {isUpdatingOrder ? (
                         <>
                           <Loader2 className="h-4 w-4 animate-spin mr-2" />
-                          Updating...
+                          Actualizando...
                         </>
                       ) : (
                         <>
                           <Save className="h-4 w-4 mr-2" />
-                          Save Changes
+                          Guardar Cambios
                         </>
                       )}
                     </Button>
@@ -650,7 +650,7 @@ export const ViewOrderDetailsModal = ({ isOpen, onClose, order }: ViewOrderDetai
                         : ''}
                     >
                       <X className="h-4 w-4 mr-2" />
-                      Cancel
+                      Cancelar
                     </Button>
                   </div>
                 )}
@@ -668,7 +668,7 @@ export const ViewOrderDetailsModal = ({ isOpen, onClose, order }: ViewOrderDetai
                     disabled={isUpdatingOrder}
                   >
                     <Ban className="h-4 w-4 mr-2" />
-                    Cancel Order
+                    Cancelar Pedido
                   </Button>
                 )}
               </div>
@@ -680,7 +680,7 @@ export const ViewOrderDetailsModal = ({ isOpen, onClose, order }: ViewOrderDetai
                   ? 'bg-gray-700 border-blue-500 text-blue-400 hover:bg-gray-600 hover:text-white'
                   : ''}
               >
-                Close
+                Cerrar
               </Button>
             </div>
           </div>
@@ -695,7 +695,7 @@ export const ViewOrderDetailsModal = ({ isOpen, onClose, order }: ViewOrderDetai
             <DialogTitle className={`flex items-center gap-2 text-xl text-red-600 ${isDarkMode ? 'text-red-400' : ''
               }`}>
               <Ban className="h-5 w-5" />
-              Cancel Order
+              Cancelar Pedido
             </DialogTitle>
           </DialogHeader>
 
@@ -707,14 +707,14 @@ export const ViewOrderDetailsModal = ({ isOpen, onClose, order }: ViewOrderDetai
               <AlertTriangle className={`h-4 w-4 ${isDarkMode ? 'text-red-400' : 'text-red-600'
                 }`} />
               <AlertDescription className={isDarkMode ? 'text-red-300' : 'text-red-700'}>
-                This will cancel order {order?.order_number}. This action cannot be undone.
+                Esto cancelara el pedido {order?.order_number}. Esta accion no se puede deshacer.
               </AlertDescription>
             </Alert>
 
             <div>
               <Label htmlFor="cancellation-reason" className={`text-sm font-medium ${isDarkMode ? 'text-gray-300' : ''
                 }`}>
-                Reason for cancellation *
+                Razon de la cancelacion *
               </Label>
               <Textarea
                 id="cancellation-reason"
@@ -723,7 +723,7 @@ export const ViewOrderDetailsModal = ({ isOpen, onClose, order }: ViewOrderDetai
                 className={`w-full mt-1 ${isDarkMode ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' : ''
                   }`}
                 rows={3}
-                placeholder="Please provide a reason for cancelling this order..."
+                placeholder="Proporciona una razon para cancelar este pedido..."
                 required
               />
             </div>
@@ -738,12 +738,12 @@ export const ViewOrderDetailsModal = ({ isOpen, onClose, order }: ViewOrderDetai
                 {isUpdatingOrder ? (
                   <>
                     <Loader2 className="h-4 w-4 animate-spin mr-2" />
-                    Cancelling...
+                    Cancelando...
                   </>
                 ) : (
                   <>
                     <Ban className="h-4 w-4 mr-2" />
-                    Confirm Cancellation
+                    Confirmar Cancelacion
                   </>
                 )}
               </Button>
@@ -758,7 +758,7 @@ export const ViewOrderDetailsModal = ({ isOpen, onClose, order }: ViewOrderDetai
                   ? 'bg-gray-700 border-blue-500 text-blue-400 hover:bg-gray-600 hover:text-white'
                   : ''}
               >
-                Cancel
+                Cancelar
               </Button>
             </div>
           </div>

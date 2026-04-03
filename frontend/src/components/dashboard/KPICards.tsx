@@ -25,7 +25,7 @@ export const KPICards = () => {
   };
 
   const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat('en-US', {
+    return new Intl.NumberFormat('es-MX', {
       style: 'currency',
       currency: 'USD',
       minimumFractionDigits: 0,
@@ -34,7 +34,7 @@ export const KPICards = () => {
   };
 
   const formatNumber = (value: number) => {
-    return new Intl.NumberFormat('en-US').format(value);
+    return new Intl.NumberFormat('es-MX').format(value);
   };
 
   // Convert KPIData into display format
@@ -43,36 +43,36 @@ export const KPICards = () => {
 
     return [
       {
-        title: "Inventory Value",
+        title: "Valor de Inventario",
         value: formatCurrency(kpiData.total_inventory_value),
         change: "+5.2%", // TODO: Calculate actual change from historical data
         changeType: "positive",
         icon: TrendingUp,
-        description: "vs last month"
+        description: "vs mes anterior"
       },
       {
-        title: "Total Products",
+        title: "Total de Productos",
         value: formatNumber(kpiData.total_products),
         change: "+2.1%", // TODO: Calculate actual change
         changeType: "positive",
         icon: Package,
-        description: "active products"
+        description: "productos activos"
       },
       {
-        title: "Low Stock Alerts",
+        title: "Alertas de Stock Bajo",
         value: formatNumber(lowStockCount),
         change: lowStockCount > 0 ? "+8.3%" : "0%", // TODO: Calculate actual change
         changeType: lowStockCount > 0 ? "negative" : "positive",
         icon: Package,
-        description: "items below threshold"
+        description: "articulos bajo el umbral"
       },
       {
-        title: "Avg Turnover",
+        title: "Rotacion Promedio",
         value: `${kpiData.average_turnover.toFixed(1)}x`,
         change: "+12.3%", // TODO: Calculate actual change
         changeType: "positive",
         icon: BarChart,
-        description: "annual turnover"
+        description: "rotacion anual"
       }
     ];
   };
@@ -83,7 +83,7 @@ export const KPICards = () => {
         <Card className={`col-span-full ${isDarkMode ? 'bg-gray-800 border-gray-700' : ''}`}>
           <CardContent className="pt-6">
             <div className={`text-center ${isDarkMode ? 'text-red-400' : 'text-red-600'}`}>
-              <p className="font-medium">Error loading KPIs</p>
+              <p className="font-medium">Error cargando KPIs</p>
               <p className={`text-sm mt-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>{error}</p>
             </div>
           </CardContent>

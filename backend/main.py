@@ -109,9 +109,13 @@ async def startup_event():
         )
         log.info(f"🚀 Starting Brickhouse Brands API in {env_type} mode")
 
-        # Initialize database connection pool
-        init_connection_pool()
-        log.info("✅ Database connection pool initialized")
+        # Initialize database connection pool (skip if already done by startup.py)
+        from app.database.connection import connection_pool as _pool
+        if _pool is None:
+            init_connection_pool()
+            log.info("✅ Database connection pool initialized")
+        else:
+            log.info("✅ Database connection pool already initialized")
 
         # Test Databricks authentication if configured
         if app_config.is_databricks_app or os.getenv("DATABRICKS_HOST"):
@@ -126,7 +130,7 @@ async def startup_event():
 
     except Exception as e:
         log.error(f"❌ Failed to initialize application: {e}")
-        raise
+        log.warning("⚠️ Server will continue without database - API calls may fail")
 
 
 @app.on_event("shutdown")
@@ -170,6 +174,47 @@ app.include_router(
     tags=["products"],
     dependencies=[Depends(get_user_context)],
 )
+
+
+@app.get("/api/debug/db-test")
+async def debug_db_test():
+    """Debug endpoint to test database connection directly"""
+    import traceback
+    result = {"pool_status": "unknown", "config": {}, "test_query": "not_attempted"}
+    try:
+        from app.database.connection import connection_pool
+        result["pool_status"] = "initialized" if connection_pool else "NOT initialized"
+
+        # Show config (no password)
+        config = app_config.database_config
+        result["config"] = {
+            "host": config.get("host"),
+            "port": config.get("port"),
+            "database": config.get("database"),
+            "user": config.get("user"),
+            "password_length": len(config.get("password", "") or ""),
+            "sslmode": config.get("sslmode"),
+        }
+
+        # Try to connect directly
+        import psycopg2
+        conn = psycopg2.connect(**config)
+        cur = conn.cursor()
+        cur.execute("SELECT COUNT(*) FROM products")
+        count = cur.fetchone()[0]
+        result["test_query"] = f"SUCCESS - {count} products"
+        cur.close()
+        conn.close()
+
+        # If direct connection works but pool doesn't, reinitialize
+        if not connection_pool:
+            init_connection_pool()
+            result["pool_reinitialized"] = True
+
+    except Exception as e:
+        result["error"] = str(e)
+        result["traceback"] = traceback.format_exc()
+    return result
 
 
 @app.get("/", response_class=FileResponse)

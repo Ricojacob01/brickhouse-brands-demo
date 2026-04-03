@@ -15,12 +15,12 @@ interface DateFilterOption {
 }
 
 const dateFilterOptions: DateFilterOption[] = [
-  { label: "All Time", value: "all", days: null },
-  { label: "Past 7 Days", value: "7", days: 7 },
-  { label: "Past 30 Days", value: "30", days: 30 },
-  { label: "Past 90 Days", value: "90", days: 90 },
-  { label: "Past 6 Months", value: "180", days: 180 },
-  { label: "Past Year", value: "365", days: 365 },
+  { label: "Todo el Periodo", value: "all", days: null },
+  { label: "Ultimos 7 Dias", value: "7", days: 7 },
+  { label: "Ultimos 30 Dias", value: "30", days: 30 },
+  { label: "Ultimos 90 Dias", value: "90", days: 90 },
+  { label: "Ultimos 6 Meses", value: "180", days: 180 },
+  { label: "Ultimo Ano", value: "365", days: 365 },
 ];
 
 interface DateFilterProps {
@@ -72,19 +72,19 @@ export const DateFilter = ({ activeTab }: DateFilterProps) => {
 
   const getDisplayLabel = () => {
     const selectedOption = dateFilterOptions.find(opt => opt.value === selectedValue);
-    return selectedOption?.label || "All Time";
+    return selectedOption?.label || "Todo el Periodo";
   };
 
   return (
     <div className="flex-1 min-w-[200px]">
       <label className={`text-sm font-medium mb-2 block ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-        Date Range
+        Rango de Fechas
       </label>
       <Select value={selectedValue} onValueChange={handleDateFilterChange}>
         <SelectTrigger className={isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : ''}>
           <div className="flex items-center gap-2">
             <CalendarIcon className="h-4 w-4" />
-            <SelectValue placeholder="Select date range" />
+            <SelectValue placeholder="Seleccionar rango de fechas" />
           </div>
         </SelectTrigger>
         <SelectContent className={isDarkMode ? 'bg-gray-700 border-gray-600' : ''}>

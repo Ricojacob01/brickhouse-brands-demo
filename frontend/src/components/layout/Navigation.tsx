@@ -94,7 +94,7 @@ export const Navigation: React.FC<NavigationProps> = ({ activeTab, onTabChange }
                     }`}
                   onClick={() => onTabChange('order-management')}
                 >
-                  Order Management
+                  Gestion de Pedidos
                   {activeTab === 'order-management' && (
                     <div className={`absolute bottom-0 left-0 right-0 h-0.5 ${isDarkMode ? 'bg-blue-400' : 'bg-blue-600'
                       }`} />
@@ -158,7 +158,7 @@ export const Navigation: React.FC<NavigationProps> = ({ activeTab, onTabChange }
                     ) : (
                       <Moon className="mr-2 h-4 w-4" />
                     )}
-                    <span>{isDarkMode ? 'Light Mode' : 'Dark Mode'}</span>
+                    <span>{isDarkMode ? 'Modo Claro' : 'Modo Oscuro'}</span>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator className={isDarkMode ? 'bg-gray-700' : ''} />
                   <DropdownMenuItem
@@ -167,7 +167,7 @@ export const Navigation: React.FC<NavigationProps> = ({ activeTab, onTabChange }
                       }`}
                   >
                     <LogOut className="mr-2 h-4 w-4" />
-                    <span>Log out</span>
+                    <span>Cerrar sesion</span>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>

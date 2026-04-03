@@ -20,7 +20,7 @@ export const RecentOrders = () => {
         if (hasDateFilter() && dateFrom && dateTo) {
             return getDateRangeDescription(dateFrom, dateTo);
         }
-        return "All orders";
+        return "Todos los pedidos";
     };
 
     const subtitle = getSubtitle();
@@ -49,7 +49,7 @@ export const RecentOrders = () => {
                         <div className="flex items-center justify-between">
                             <div>
                                 <CardTitle className={`text-xl font-semibold ${isDarkMode ? 'text-white' : ''}`}>
-                                    Recent Orders
+                                    Pedidos Recientes
                                 </CardTitle>
                                 <p className={`text-sm mt-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                                     {subtitle}
@@ -62,14 +62,14 @@ export const RecentOrders = () => {
                                     className={isDarkMode ? 'bg-gray-700 border-gray-600 text-gray-300 hover:bg-gray-600 hover:text-white' : ''}
                                 >
                                     <Download className="h-4 w-4 mr-2" />
-                                    Export CSV
+                                    Exportar CSV
                                 </Button>
                                 <Button
                                     onClick={() => setIsOrderModalOpen(true)}
                                     className={isDarkMode ? 'bg-blue-600 hover:bg-blue-700 text-white' : 'bg-blue-600 hover:bg-blue-700 text-white'}
                                 >
                                     <Plus className="h-4 w-4 mr-2" />
-                                    Place Order
+                                    Crear Pedido
                                 </Button>
                             </div>
                         </div>

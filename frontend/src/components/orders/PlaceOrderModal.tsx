@@ -179,8 +179,8 @@ export const PlaceOrderModal = ({ isOpen, onClose }: PlaceOrderModalProps) => {
     if (newTotalQuantity > maxQuantity) {
       const maxCanAdd = maxQuantity - currentQuantity;
       toast({
-        title: "Quantity limit exceeded",
-        description: `Maximum ${maxQuantity.toLocaleString()} units per product. You already have ${currentQuantity} in cart, can add ${maxCanAdd} more.`,
+        title: "Limite de cantidad excedido",
+        description: `Maximo ${maxQuantity.toLocaleString()} unidades por producto. Ya tienes ${currentQuantity} en el carrito, puedes agregar ${maxCanAdd} mas.`,
         variant: "destructive"
       });
       return;
@@ -202,8 +202,8 @@ export const PlaceOrderModal = ({ isOpen, onClose }: PlaceOrderModalProps) => {
     }
 
     toast({
-      title: "Added to cart",
-      description: `${quantityToAdd} units of ${product.product_name} added to cart.`,
+      title: "Agregado al carrito",
+      description: `${quantityToAdd} unidades de ${product.product_name} agregadas al carrito.`,
       variant: "default"
     });
   };
@@ -217,8 +217,8 @@ export const PlaceOrderModal = ({ isOpen, onClose }: PlaceOrderModalProps) => {
     const maxQuantity = getMaxOrderQuantity();
     if (newQuantity > maxQuantity) {
       toast({
-        title: "Quantity limit exceeded",
-        description: `Maximum ${maxQuantity.toLocaleString()} units per product.`,
+        title: "Limite de cantidad excedido",
+        description: `Maximo ${maxQuantity.toLocaleString()} unidades por producto.`,
         variant: "destructive"
       });
       return;
@@ -234,8 +234,8 @@ export const PlaceOrderModal = ({ isOpen, onClose }: PlaceOrderModalProps) => {
   const removeFromOrder = (item: OrderItem) => {
     setOrderItems(orderItems.filter(orderItem => orderItem !== item));
     toast({
-      title: "Item removed",
-      description: `${item.product.product_name} removed from cart.`,
+      title: "Articulo eliminado",
+      description: `${item.product.product_name} eliminado del carrito.`,
       variant: "default"
     });
   };
@@ -249,8 +249,8 @@ export const PlaceOrderModal = ({ isOpen, onClose }: PlaceOrderModalProps) => {
   const submitOrder = async () => {
     if (orderItems.length === 0) {
       toast({
-        title: "No items in order",
-        description: "Please add items to your order before submitting.",
+        title: "No hay articulos en el pedido",
+        description: "Agrega articulos a tu pedido antes de enviarlo.",
         variant: "destructive"
       });
       return;
@@ -258,8 +258,8 @@ export const PlaceOrderModal = ({ isOpen, onClose }: PlaceOrderModalProps) => {
 
     if (!selectedToStore) {
       toast({
-        title: "No delivery store selected",
-        description: "Please select a target store for delivery.",
+        title: "No se selecciono tienda de entrega",
+        description: "Selecciona una tienda de destino para la entrega.",
         variant: "destructive"
       });
       return;
@@ -267,8 +267,8 @@ export const PlaceOrderModal = ({ isOpen, onClose }: PlaceOrderModalProps) => {
 
     if (!currentUser) {
       toast({
-        title: "User not found",
-        description: "Please refresh the page and try again.",
+        title: "Usuario no encontrado",
+        description: "Actualiza la pagina e intenta de nuevo.",
         variant: "destructive"
       });
       return;
@@ -303,8 +303,8 @@ export const PlaceOrderModal = ({ isOpen, onClose }: PlaceOrderModalProps) => {
 
       const selectedStoreName = storeOptions.find(s => s.value === parseInt(selectedToStore))?.label || 'selected store';
       toast({
-        title: "Orders submitted successfully!",
-        description: `${orderItems.length} order${orderItems.length > 1 ? 's' : ''} submitted for delivery to ${selectedStoreName}.`
+        title: "Pedidos enviados exitosamente!",
+        description: `${orderItems.length} pedido${orderItems.length > 1 ? 's' : ''} enviado${orderItems.length > 1 ? 's' : ''} para entrega a ${selectedStoreName}.`
       });
 
       // Refresh the analytics cards to show updated counts
@@ -329,7 +329,7 @@ export const PlaceOrderModal = ({ isOpen, onClose }: PlaceOrderModalProps) => {
       }
 
       toast({
-        title: "Order submission failed",
+        title: "Error al enviar el pedido",
         description: errorMessage,
         variant: "destructive"
       });
@@ -337,10 +337,10 @@ export const PlaceOrderModal = ({ isOpen, onClose }: PlaceOrderModalProps) => {
   };
 
   const getStockLevel = (availableStock: number) => {
-    if (availableStock <= 0) return { level: "Out of Stock", color: "bg-red-500" };
-    if (availableStock < getCriticalStockThreshold()) return { level: "Critical", color: "bg-red-500" };
-    if (availableStock < getLowStockThreshold()) return { level: "Low", color: "bg-yellow-500" };
-    return { level: "Good", color: "bg-green-500" };
+    if (availableStock <= 0) return { level: "Sin Stock", color: "bg-red-500" };
+    if (availableStock < getCriticalStockThreshold()) return { level: "Critico", color: "bg-red-500" };
+    if (availableStock < getLowStockThreshold()) return { level: "Bajo", color: "bg-yellow-500" };
+    return { level: "Disponible", color: "bg-green-500" };
   };
 
   return (
@@ -351,7 +351,7 @@ export const PlaceOrderModal = ({ isOpen, onClose }: PlaceOrderModalProps) => {
           <DialogTitle className={`flex items-center gap-3 text-2xl font-bold ${isDarkMode ? 'text-white' : ''
             }`}>
             <Package className="h-7 w-7" />
-            Place New Order
+            Crear Nuevo Pedido
           </DialogTitle>
         </DialogHeader>
 
@@ -361,13 +361,13 @@ export const PlaceOrderModal = ({ isOpen, onClose }: PlaceOrderModalProps) => {
             <div className="flex gap-4 flex-shrink-0">
               <div className="flex-1 px-1">
                 <Label htmlFor="search" className={`mb-3 block ${isDarkMode ? 'text-gray-300' : ''
-                  }`}>Search Products</Label>
+                  }`}>Buscar Productos</Label>
                 <div className="relative">
                   <Search className={`absolute left-3 top-3 h-4 w-4 z-10 ${isDarkMode ? 'text-gray-400' : 'text-gray-400'
                     }`} />
                   <Input
                     id="search"
-                    placeholder="Search by product ID, name, brand, or category..."
+                    placeholder="Buscar por ID de producto, nombre, marca o categoria..."
                     value={searchInput}
                     onChange={(e) => setSearchInput(e.target.value)}
                     className={`pl-10 focus-visible:ring-offset-0 focus-visible:ring-2 ${isDarkMode
@@ -391,12 +391,12 @@ export const PlaceOrderModal = ({ isOpen, onClose }: PlaceOrderModalProps) => {
                     <Loader2 className={`h-6 w-6 animate-spin ${isDarkMode ? 'text-gray-400' : 'text-gray-400'
                       }`} />
                     <span className={`ml-2 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'
-                      }`}>Loading products...</span>
+                      }`}>Cargando productos...</span>
                   </div>
                 ) : filteredProducts.length === 0 ? (
                   <div className={`text-center py-8 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'
                     }`}>
-                    {searchInput ? "No products found matching your search" : "No products available"}
+                    {searchInput ? "No se encontraron productos" : "No hay productos disponibles"}
                   </div>
                 ) : (
                   filteredProducts.map((inventoryItem) => {
@@ -429,7 +429,7 @@ export const PlaceOrderModal = ({ isOpen, onClose }: PlaceOrderModalProps) => {
                                 }`}>
                                 <span className="flex items-center gap-1">
                                   <Package className="h-3 w-3" />
-                                  Warehouse Stock
+                                  Stock en Almacen
                                 </span>
                                 <div className="flex items-center gap-1">
                                   <div className={`w-2 h-2 rounded-full ${stockInfo.color}`}></div>
@@ -467,8 +467,8 @@ export const PlaceOrderModal = ({ isOpen, onClose }: PlaceOrderModalProps) => {
                                       // Validate quantity range
                                       if (inputValue < 1) {
                                         toast({
-                                          title: "Invalid quantity",
-                                          description: "Quantity must be at least 1.",
+                                          title: "Cantidad invalida",
+                                          description: "La cantidad debe ser al menos 1.",
                                           variant: "destructive"
                                         });
                                         quantityInput.value = "1";
@@ -478,8 +478,8 @@ export const PlaceOrderModal = ({ isOpen, onClose }: PlaceOrderModalProps) => {
                                       const maxAddQuantity = getMaxAddQuantity();
                                       if (inputValue > maxAddQuantity) {
                                         toast({
-                                          title: "Invalid quantity",
-                                          description: `Maximum quantity per add is ${maxAddQuantity.toLocaleString()} units.`,
+                                          title: "Cantidad invalida",
+                                          description: `La cantidad maxima por agregado es ${maxAddQuantity.toLocaleString()} unidades.`,
                                           variant: "destructive"
                                         });
                                         quantityInput.value = maxAddQuantity.toString();
@@ -497,14 +497,14 @@ export const PlaceOrderModal = ({ isOpen, onClose }: PlaceOrderModalProps) => {
                                       : ''
                                       }`}
                                   >
-                                    Add to Cart
+                                    Agregar al Carrito
                                   </Button>
                                 </div>
                               ) : (
                                 <div className="mt-2">
                                   <span className={`text-sm font-medium ${isDarkMode ? 'text-red-400' : 'text-red-600'
                                     }`}>
-                                    Currently unavailable
+                                    No disponible actualmente
                                   </span>
                                 </div>
                               )}
@@ -525,14 +525,14 @@ export const PlaceOrderModal = ({ isOpen, onClose }: PlaceOrderModalProps) => {
               }`}>
               <CardHeader className="flex-shrink-0">
                 <CardTitle className={`text-lg ${isDarkMode ? 'text-white' : ''
-                  }`}>Order Summary</CardTitle>
+                  }`}>Resumen del Pedido</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4 flex-1 flex flex-col min-h-0">
                 {/* Order Items */}
                 {orderItems.length === 0 ? (
                   <div className="flex-1 flex items-center justify-center">
                     <p className={`text-center py-4 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'
-                      }`}>No items in order</p>
+                      }`}>No hay articulos en el pedido</p>
                   </div>
                 ) : (
                   <>
@@ -598,14 +598,14 @@ export const PlaceOrderModal = ({ isOpen, onClose }: PlaceOrderModalProps) => {
                     <div className="flex-shrink-0">
                       <Label htmlFor="target-store" className={`text-sm font-medium ${isDarkMode ? 'text-gray-300' : ''
                         }`}>
-                        Delivery Store
+                        Tienda de Entrega
                       </Label>
                       <Select value={selectedToStore} onValueChange={setSelectedToStore}>
                         <SelectTrigger className={`w-full mt-1 ${!selectedToStore && orderItems.length > 0
                           ? (isDarkMode ? 'border-orange-500 bg-orange-900/20 text-white' : 'border-orange-300 bg-orange-50')
                           : (isDarkMode ? 'bg-gray-600 border-gray-500 text-white' : '')
                           }`}>
-                          <SelectValue placeholder={isLoadingStores ? "Loading stores..." : "Select delivery store"} />
+                          <SelectValue placeholder={isLoadingStores ? "Cargando tiendas..." : "Seleccionar tienda de entrega"} />
                         </SelectTrigger>
                         <SelectContent className={isDarkMode ? 'bg-gray-700 border-gray-600' : ''}>
                           {storeOptions.map((store) => (
@@ -629,12 +629,12 @@ export const PlaceOrderModal = ({ isOpen, onClose }: PlaceOrderModalProps) => {
                         <p className={`text-xs mt-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'
                           }`}>
                           <MapPin className="h-3 w-3 inline mr-1" />
-                          Orders will be shipped from Main Warehouse to selected store
+                          Los pedidos se enviaran desde el Almacen Principal a la tienda seleccionada
                         </p>
                       ) : orderItems.length > 0 ? (
                         <p className={`text-xs mt-1 ${isDarkMode ? 'text-orange-400' : 'text-orange-600'
                           }`}>
-                          Please select a delivery store to continue
+                          Selecciona una tienda de entrega para continuar
                         </p>
                       ) : null}
                     </div>
@@ -649,14 +649,14 @@ export const PlaceOrderModal = ({ isOpen, onClose }: PlaceOrderModalProps) => {
                         {isCreatingOrder ? (
                           <>
                             <Loader2 className="h-4 w-4 animate-spin mr-2" />
-                            Submitting Orders...
+                            Enviando Pedidos...
                           </>
                         ) : orderItems.length === 0 ? (
-                          'Add items to continue'
+                          'Agrega articulos para continuar'
                         ) : !selectedToStore ? (
-                          'Select delivery store to submit'
+                          'Selecciona tienda de entrega'
                         ) : (
-                          `Submit Order (${orderItems.length} items)`
+                          `Enviar Pedido (${orderItems.length} articulos)`
                         )}
                       </Button>
                       <Button
@@ -668,7 +668,7 @@ export const PlaceOrderModal = ({ isOpen, onClose }: PlaceOrderModalProps) => {
                           }`}
                         disabled={isCreatingOrder}
                       >
-                        Cancel
+                        Cancelar
                       </Button>
                     </div>
                   </>

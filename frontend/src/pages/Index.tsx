@@ -142,7 +142,7 @@ const Index = () => {
 
   // Build category options from real product data
   const categoryDropdownOptions = [
-    { value: "all", label: "All Categories" },
+    { value: "all", label: "Todas las Categorias" },
     ...(categoryOptions?.map(category => ({
       value: category.value,
       label: category.label
@@ -195,7 +195,7 @@ const Index = () => {
                       <SelectItem value="loading" disabled>
                         <div className="flex items-center gap-2">
                           <Loader2 className="h-4 w-4 animate-spin" />
-                          Loading regions...
+                          Cargando regiones...
                         </div>
                       </SelectItem>
                     ) : (
@@ -216,7 +216,7 @@ const Index = () => {
               <div className="flex-1 min-w-[200px]">
                 <label className={`text-sm font-medium mb-2 block ${isDarkMode ? 'text-gray-300' : 'text-gray-700'
                   }`}>
-                  Category
+                  Categoria
                 </label>
                 <Select value={selectedCategory} onValueChange={handleCategoryChange}>
                   <SelectTrigger className={isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : ''}>
@@ -227,7 +227,7 @@ const Index = () => {
                       <SelectItem value="loading" disabled>
                         <div className="flex items-center gap-2">
                           <Loader2 className="h-4 w-4 animate-spin" />
-                          Loading categories...
+                          Cargando categorias...
                         </div>
                       </SelectItem>
                     ) : (
